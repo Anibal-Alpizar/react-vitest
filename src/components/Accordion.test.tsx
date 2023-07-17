@@ -1,7 +1,14 @@
 import Accordion from "./Accordion";
+import { render, screen } from "@testing-library/react";
 
 describe("Accordion", () => {
   test("should add two numbers", () => {
-    expect(1 + 1).toBe(2);
+    render(
+      <Accordion title="My Accordion">
+        <h3>My content</h3>
+        <p>Some content</p>
+      </Accordion>
+    );
+    expect(screen.getByText("My Accordion")).toBeDefined();
   });
 });
