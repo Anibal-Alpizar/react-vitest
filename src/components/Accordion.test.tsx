@@ -1,14 +1,32 @@
 import Accordion from "./Accordion";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 
 describe("Accordion", () => {
-  test("should add two numbers", () => {
+  beforeEach(() => {
     render(
-      <Accordion title="My Accordion">
-        <h3>My content</h3>
-        <p>Some content</p>
+      <Accordion title="Testing">
+        <h4>Content</h4>
       </Accordion>
     );
-    expect(screen.getByText("My Accordion")).toBeDefined();
+  });
+
+  test("should show title all the time", () => {
+    expect(screen.getByText(/Testing/i)).toBeDefined();
+  });
+  test("should not show the content at the start", () => {
+    expect(screen.queryByText(/Content/i)).toBeNull();
+  });
+
+  test("should show the content when the title is clicked", () => {
+    const button = screen.getByText(/Open/i);
+    fireEvent.click(button);
+    expect(screen.queryByText(/Content/i)).toBeDefined();
+  });
+
+  test("should hide the content when the title is clicked", () => {
+    const button = screen.getByText(/Open/i);
+    fireEvent.click(button);
+    fireEvent.click(button);
+    expect(screen.queryByText(/Content/i)).toBeNull();
   });
 });
